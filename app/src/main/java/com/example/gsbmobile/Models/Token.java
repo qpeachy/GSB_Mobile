@@ -2,7 +2,9 @@ package com.example.gsbmobile.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Token {
+import java.io.Serializable;
+
+public class Token implements Serializable {
 
     @SerializedName("token")
     private String token;

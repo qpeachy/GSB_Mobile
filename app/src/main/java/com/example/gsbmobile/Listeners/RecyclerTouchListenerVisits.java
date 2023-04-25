@@ -13,7 +13,7 @@ import com.example.gsbmobile.Models.GetUsers;
 
 import retrofit2.Callback;
 
-public class RecyclerTouchListenerVisits {
+public class RecyclerTouchListenerVisits implements RecyclerView.OnItemTouchListener {
     private GestureDetector gestureDetector;
     private RecyclerViewClickListenerVisits clickListener;
 
@@ -30,4 +30,23 @@ public class RecyclerTouchListenerVisits {
     public RecyclerTouchListenerVisits(Callback<GetUsers> getUsersCallback, RecyclerView listVisits, RecyclerViewClickListenerVisits RecyclerViewClickListenerVisits) {
     }
 
+    @Override
+    public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+        View child = rv.findChildViewUnder(e.getX(), e.getY());
+        if(child!=null&&clickListener!=null&&gestureDetector.onTouchEvent(e)){
+            clickListener.onClick(child, rv.getChildAdapterPosition(child));
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+    }
 }

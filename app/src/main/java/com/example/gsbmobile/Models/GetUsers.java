@@ -2,9 +2,10 @@ package com.example.gsbmobile.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GetUsers {
+public class GetUsers implements Serializable {
     @SerializedName("hydra:member")
     ArrayList<User> users;
 

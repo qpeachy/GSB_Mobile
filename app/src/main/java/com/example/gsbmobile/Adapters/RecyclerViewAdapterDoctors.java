@@ -49,7 +49,6 @@ public class RecyclerViewAdapterDoctors extends RecyclerView.Adapter<RecyclerVie
             super(itemView);
             tvDoctorName = itemView.findViewById(R.id.tvDoctorName);
             tvDoctorSurname = itemView.findViewById(R.id.tvDoctorSurname);
-            //commentai
         }
     }
 }

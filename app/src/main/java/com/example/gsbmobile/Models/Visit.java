@@ -2,7 +2,9 @@ package com.example.gsbmobile.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Visit {
+import java.io.Serializable;
+
+public class Visit implements Serializable {
     @SerializedName("id")
     private int id;
 

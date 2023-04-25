@@ -5,17 +5,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.gsbmobile.Adapters.RecyclerViewAdapterVisits;
 import com.example.gsbmobile.Instance.RetrofitClientInstance;
 import com.example.gsbmobile.Interface.GsbServices;
+import com.example.gsbmobile.Interface.RecyclerViewClickListenerVisits;
+import com.example.gsbmobile.Listeners.RecyclerTouchListenerVisits;
 import com.example.gsbmobile.Models.Doctor;
 import com.example.gsbmobile.Models.Visit;
 import com.example.gsbmobile.databinding.ActivityDoctorBinding;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -69,11 +71,27 @@ public class DoctorActivity extends AppCompatActivity {
         binding.listVisit.setLayoutManager(LayoutManager);
         binding.listVisit.setFocusable(false);
 
-        binding.tvAdress.setText(String.valueOf(doctor.getStreet() + ' ' + doctor.getCity()));
-        binding.tvcoeffNot.setText(String.valueOf(doctor.getCoeffNotoriete()));
-        binding.tvMail.setText(doctor.getMail());
+        binding.tvAdress.setText(String.valueOf("Ville: " + doctor.getStreet() + ' ' + doctor.getCity()));
+        binding.tvcoeffNot.setText("Coeff notoriété: "+String.valueOf(doctor.getCoeffNotoriete()));
+        binding.tvMail.setText("Mail: "+doctor.getMail());
         binding.tvName.setText(doctor.getName());
         binding.tvSurName.setText(doctor.getSurname());
-        binding.tvPhoneNum.setText(doctor.getPhone());
+        binding.tvPhoneNum.setText("Numéro de Téléphone: "+doctor.getPhone());
+
+        binding.listVisit.addOnItemTouchListener(new RecyclerTouchListenerVisits(getApplicationContext(), binding.listVisit, new RecyclerViewClickListenerVisits() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent vIntent = new Intent(getApplicationContext(), VisitActivity.class);
+                vIntent.putExtra("visit", dataVisits.get(position));
+                startActivity(vIntent);
+            }
+        }));
+
+        binding.btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 }
