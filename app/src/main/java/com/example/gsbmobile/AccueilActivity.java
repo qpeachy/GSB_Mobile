@@ -103,8 +103,9 @@ public class AccueilActivity extends AppCompatActivity {
                 Intent dIntent = new Intent(getApplicationContext(), DoctorActivity.class);
                 dIntent.putExtra("doctor", dataDoctors.get(position));
                 dIntent.putExtra("token", token);
-                dIntent.putExtra("user", CurrentUser.getId());
+                dIntent.putExtra("iduser", CurrentUser.getId());
                 startActivity(dIntent);
+
             }
         }));
     }

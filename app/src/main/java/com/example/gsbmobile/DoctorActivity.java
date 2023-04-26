@@ -1,5 +1,9 @@
 package com.example.gsbmobile;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -14,10 +18,10 @@ import com.example.gsbmobile.Interface.GsbServices;
 import com.example.gsbmobile.Interface.RecyclerViewClickListenerVisits;
 import com.example.gsbmobile.Listeners.RecyclerTouchListenerVisits;
 import com.example.gsbmobile.Models.Doctor;
+import com.example.gsbmobile.Models.User;
 import com.example.gsbmobile.Models.Visit;
 import com.example.gsbmobile.databinding.ActivityDoctorBinding;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -29,8 +33,22 @@ public class DoctorActivity extends AppCompatActivity {
     private RecyclerViewAdapterVisits adapter;
     private ArrayList<Visit> dataVisits;
     private Doctor doctor;
-    private int idUser;
+    private int userId;
     private String token;
+    private ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new
+            ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == 1){
+                        Intent resultIntent = result.getData();
+                        if(resultIntent != null){
+                            Visit nVisit = (Visit) resultIntent.getSerializableExtra("newVisit");
+                            dataVisits.add(nVisit);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +59,8 @@ public class DoctorActivity extends AppCompatActivity {
 
         Intent theIntent = getIntent();
         doctor = (Doctor)theIntent.getSerializableExtra("doctor");
-        idUser = (int)theIntent.getSerializableExtra("user");
         token = (String)theIntent.getSerializableExtra("token");
+        userId = (int)theIntent.getSerializableExtra("iduser");
 
         dataVisits = new ArrayList<Visit>();
 
@@ -81,8 +99,8 @@ public class DoctorActivity extends AppCompatActivity {
         binding.listVisit.addOnItemTouchListener(new RecyclerTouchListenerVisits(getApplicationContext(), binding.listVisit, new RecyclerViewClickListenerVisits() {
             @Override
             public void onClick(View view, int position) {
-                Intent vIntent = new Intent(getApplicationContext(), VisitActivity.class);
-                vIntent.putExtra("visit", dataVisits.get(position));
+                Intent vIntent = new Intent(getApplicationContext(), DetailsVisitActivity.class);
+                vIntent.putExtra("visitDetails", dataVisits.get(position));
                 startActivity(vIntent);
             }
         }));
@@ -90,7 +108,10 @@ public class DoctorActivity extends AppCompatActivity {
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent (getApplicationContext(), NewVisitActivity.class);
+                intent.putExtra("idDoc", doctor.getId());
+                intent.putExtra("idUser", Integer.toString(userId));
+                activityResultLauncher.launch(intent);
             }
         });
     }

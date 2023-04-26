@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Visit implements Serializable {
-    @SerializedName("id")
-    private int id;
 
     @SerializedName("visiteDate")
     private String date;
@@ -14,23 +12,32 @@ public class Visit implements Serializable {
     @SerializedName("comment")
     private String comment;
 
-    public int getId() {
-        return id;
+    @SerializedName("doctor")
+    private String idDoctor;
+
+    @SerializedName("user")
+    private String idUser;
+
+    public Visit(String date, String comment, String idUser, String idDoctor) {
+        this.date = date;
+        this.comment = comment;
+        this.idDoctor = idDoctor;
+        this.idUser = idUser;
     }
 
     public String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public String getIdDoctor() {
+        return idDoctor;
+    }
+
+    public String getIdUser() {
+        return idUser;
     }
 }

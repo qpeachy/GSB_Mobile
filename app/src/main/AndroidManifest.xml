@@ -17,7 +17,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".VisitActivity"
+            android:name=".NewVisitActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailsVisitActivity"
             android:exported="false" />
         <activity
             android:name=".DoctorActivity"

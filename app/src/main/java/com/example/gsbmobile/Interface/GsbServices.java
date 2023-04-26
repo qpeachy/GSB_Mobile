@@ -27,4 +27,7 @@ public interface GsbServices {
 
     @GET("visits/{id}")
     Call<Visit> visit(@Path("id") int id, @Header("Authorization") String token);
+
+    @POST("visits")
+    Call<Visit> newVisit(@Body Visit visit);
 }
